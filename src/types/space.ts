@@ -1,6 +1,12 @@
 import { IPoint } from "./point";
+/**
+ * Interface provided by space function to operate with a space
+ */
 export interface ISpace {
-    insert: (item: any) => IPoint | undefined;
+    // delete item from space
     delete: (item: IPoint) => any;
+    // Insert item in space
+    insert: (item: any) => IPoint | undefined;
+    // Returns a name of this interface space
     name: () => string;
 }

@@ -1,2 +1,1 @@
-import { validEmail, validMobileNo, validSocial } from "./validate";
-export { validEmail, validMobileNo, validSocial };
+export * from "./raids-states";

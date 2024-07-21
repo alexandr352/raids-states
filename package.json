@@ -1,0 +1,41 @@
+{
+  "name": "raids-states",
+  "version": "1.0.0",
+  "description": "RaidsStates is a high-performance, in-memory database designed for speed, efficiency, and reliability.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexandr352/raids-states.git"
+  },
+  "keywords": [
+    "`in-memory`",
+    "`database`",
+    "`high-performance`",
+    "`fast`",
+    "`reliable`",
+    "`data",
+    "storage`",
+    "`key-value",
+    "store`",
+    "`RAID`",
+    "`redundant`",
+    "`scalable`",
+    "`real-time`",
+    "`data",
+    "management`",
+    "`cache`",
+    "`javascript`",
+    "`node`",
+    "`front-end`",
+    "`npm`"
+  ],
+  "author": "Alexandr352 <alexandr352@proton.me>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alexandr352/raids-states/issues"
+  },
+  "homepage": "https://github.com/alexandr352/raids-states#readme"
+}

@@ -7,7 +7,7 @@ export class RaidsStates {
     /**
      * Register of points to access space tails
      */
-    private _spaces: Register = {};
+    private _register: Register = {};
 
     /**
      * Returns interface to operate with a space
@@ -19,9 +19,9 @@ export class RaidsStates {
     public space(name: string): ISpace {
         return {
             // delete item from a space
-            delete: deleteOne.bind(this, undefined, this._spaces, name),
+            delete: deleteOne.bind(this, undefined, this._register, name),
             // insert item in to a space
-            insert: insertOne.bind(this, undefined, this._spaces, name),
+            insert: insertOne.bind(this, undefined, this._register, name),
             // name of the space
             name: function(): string { return name; }
         };

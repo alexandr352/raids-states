@@ -28,7 +28,7 @@ export function deleteOne(item: IPoint | undefined, spaces: Register, spaceName:
             delete spaces[spaceName];
         }
         // Return the item removed from the space chain
-        return item;
+        return item.__data;
     }
     // If not at the space pointer, it should have __prev
     if (!item.__prev) {
@@ -50,5 +50,5 @@ export function deleteOne(item: IPoint | undefined, spaces: Register, spaceName:
     // Delete item space connection
     delete item.__prev;
     // Return the item removed from the space chain
-    return item;
+    return item.__data;
 }

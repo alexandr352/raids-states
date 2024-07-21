@@ -2,40 +2,52 @@
   "name": "raids-states",
   "version": "1.0.0",
   "description": "RaidsStates is a high-performance, in-memory database designed for speed, efficiency, and reliability.",
-  "main": "index.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "/dist"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc --project tsconfig.json && tsc --project tsconfig.cjs.json",
+    "release": "npm run build && changeset publish",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alexandr352/raids-states.git"
   },
   "keywords": [
-    "`in-memory`",
-    "`database`",
-    "`high-performance`",
-    "`fast`",
-    "`reliable`",
-    "`data",
-    "storage`",
-    "`key-value",
-    "store`",
-    "`RAID`",
-    "`redundant`",
-    "`scalable`",
-    "`real-time`",
-    "`data",
-    "management`",
-    "`cache`",
-    "`javascript`",
-    "`node`",
-    "`front-end`",
-    "`npm`"
+    "in-memory",
+    "database",
+    "high-performance",
+    "fast",
+    "reliable",
+    "data storage",
+    "key-value store",
+    "RAID",
+    "redundant",
+    "scalable",
+    "real-time",
+    "data",
+    "management",
+    "cache",
+    "javascript",
+    "node",
+    "front-end",
+    "npm"
   ],
   "author": "Alexandr352 <alexandr352@proton.me>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/alexandr352/raids-states/issues"
   },
-  "homepage": "https://github.com/alexandr352/raids-states#readme"
+  "homepage": "https://github.com/alexandr352/raids-states#readme",
+  "devDependencies": {
+    "@changesets/cli": "^2.27.7",
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.3",
+    "typescript": "^5.5.3"
+  }
 }

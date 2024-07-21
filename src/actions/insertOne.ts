@@ -16,15 +16,15 @@ export function insertOne(item: any, spaces: Register, spaceName: string): IPoin
     // If there is a space with provided name
     if (spaces.hasOwnProperty(spaceName)) {
         // Link old space tail to current item
-        spaces[spaceName].__prev = {
-            __data: item,
+        spaces[spaceName].previous = {
+            value: item,
             // Connect item to the space chain
-            __next: spaces[spaceName]
+            next: spaces[spaceName]
         };
     }
     // Move Space pointer to newly added item
     spaces[spaceName] = {
-        __data: item
+        value: item
     };
     // Return connected to the Space item
     return item;

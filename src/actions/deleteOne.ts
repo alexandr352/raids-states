@@ -1,4 +1,4 @@
-import { IPoint, Register } from "../types"
+import { IPoint, Register } from "../types/index.js"
 /**
  * Deletes one item from the space
  * @param {IPoint} item,

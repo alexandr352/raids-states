@@ -1,3 +1,3 @@
-export * from "./point";
-export * from "./register";
-export * from "./space";
+export * from "./point.js";
+export * from "./register.js";
+export * from "./space.js";

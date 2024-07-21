@@ -1,5 +1,5 @@
-import { IPoint, ISpace, Register } from "./types";
-import { deleteOne, insertOne } from "./actions";
+import { IPoint, ISpace, Register } from "./types/index.js";
+import { deleteOne, insertOne } from "./actions/index.js";
 /**
  * RaidsStates main class
  */

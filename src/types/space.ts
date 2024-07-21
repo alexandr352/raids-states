@@ -1,4 +1,4 @@
-import { IPoint } from "./point";
+import { IPoint } from "./point.js";
 /**
  * Interface provided by space function to operate with a space
  */

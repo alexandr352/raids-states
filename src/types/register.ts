@@ -1,4 +1,4 @@
-import { IPoint } from "./point"
+import { IPoint } from "./point.js"
 /**
  * Register is used to store space tail points
  */

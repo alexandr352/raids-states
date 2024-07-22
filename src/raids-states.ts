@@ -1,5 +1,5 @@
-import { IPoint, ISpace, Register } from "./types/index.js";
-import { deleteOne, insertOne } from "./actions/index.js";
+import { ISpace, Register } from "./types/index.js";
+import { insertOne } from "./actions/index.js";
 /**
  * RaidsStates main class
  */
@@ -18,8 +18,6 @@ export class RaidsStates {
      */
     public space(name: string): ISpace {
         return {
-            // delete item from a space
-            delete: deleteOne.bind(this, undefined, this._register, name),
             // insert item in to a space
             insert: insertOne.bind(this, undefined, this._register, name),
             // name of the space

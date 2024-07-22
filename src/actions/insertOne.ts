@@ -8,7 +8,7 @@ import { IPoint, Register } from "../types/index.js";
  * @example
  * insert(myItem, spaceName) // Output: myItem with a space connection
  */
-export function insertOne(item: any, spaces: Register, spaceName: string): IPoint | undefined {
+export function insertOne(spaces: Register, spaceName: string, item: any): IPoint | undefined {
     // Abort if no item provided
     if (item == null) {
         return;
@@ -21,6 +21,8 @@ export function insertOne(item: any, spaces: Register, spaceName: string): IPoin
             // Connect item to the space chain
             next: spaces[spaceName]
         };
+        spaces[spaceName] = spaces[spaceName].previous;
+        return item;
     }
     // Move Space pointer to newly added item
     spaces[spaceName] = {

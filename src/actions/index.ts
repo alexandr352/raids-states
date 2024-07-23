@@ -1,2 +1,2 @@
-export * from "./deletePoint.js";
-export * from "./insertOne.js";
+export * from "./delete-point.js";
+export * from "./insert-one.js";

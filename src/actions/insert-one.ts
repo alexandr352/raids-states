@@ -13,21 +13,24 @@ export function insertOne(spaces: Register, spaceName: string, item: any): IPoin
     if (item == null) {
         return;
     }
+    // Create point from item
+    const point: IPoint = {
+        value: item
+    }
     // If there is a space with provided name
     if (spaces.hasOwnProperty(spaceName)) {
-        // Link old space tail to current item
-        spaces[spaceName].previous = {
-            value: item,
-            // Connect item to the space chain
-            next: spaces[spaceName]
-        };
-        spaces[spaceName] = spaces[spaceName].previous;
-        return item;
+        // Connect point to last item in chain
+        spaces[spaceName].last.next = point;
+        // Move las item pointer to newly added point
+        spaces[spaceName].last = point;
+        // Return connected to the Space item
+        return point.value;
     }
-    // Move Space pointer to newly added item
+    // Add first item to the space
     spaces[spaceName] = {
-        value: item
+        next: point,
+        last: point
     };
     // Return connected to the Space item
-    return item;
+    return point.value;
 }

@@ -1,3 +1,3 @@
-import { IPoint } from "./point";
+import { IChainStart, IPoint } from "./point";
 
-export type CursorLogic = (data: any, point: IPoint, previousPoint: IPoint | undefined) => any;
+export type CursorLogic = (data: any, point: IPoint, previousPoint: IChainStart | IPoint) => any;

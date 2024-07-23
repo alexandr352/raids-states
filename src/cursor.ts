@@ -1,55 +1,41 @@
-import { IPoint, CursorFilter, CursorLogic } from "./types/index.js";
+import { IPoint, CursorFilter, CursorLogic, IChainStart } from "./types/index.js";
 
 export class Cursor {
-    // Saves previous point for logic calls
-    private _previousPoint: IPoint | undefined = undefined;
-
     constructor(
-        private _pointer: IPoint,
-        private _chainStart: IPoint,
+        private _pointer: IChainStart | IPoint,
+        private _chainStart: IChainStart,
         private _logic: CursorLogic = (item: any) => item,
         private _filter: CursorFilter = () => true
-    ) {
-        // TODO set _previousPoint
-        // we have to know what chain is it on
-    }
+    ) {}
 
     public isCompleted(): boolean {
-        return this._previousPoint === this._pointer
+        return this._chainStart.last === this._pointer;
     }
 
     // Executes cursor one time, returns the logic result
     public next(): any {
         // Check if chain is finished
         if (this.isCompleted()) {
-            return;
+            return undefined;
         }
         // Searching item passing provided filter
-        while(true) {
-            if(this._filter(this._pointer.value)) {
-                const result = this._logic(this._pointer.value, this._pointer, this._previousPoint);
-                this._previousPoint = this._pointer;
-                if (this._pointer.next) {
-                    this._pointer = this._pointer.next;
-                }
+        while(this._pointer.next) {
+            if(this._filter(this._pointer.next.value)) {
+                const result = this._logic(this._pointer.next.value, this._pointer.next, this._pointer);
+                // Moves pointer to next point
+                this._pointer = this._pointer.next;
                 return result;
             }
-            // Saving previous point
-            this._previousPoint = this._pointer;
-            // Moving pointer to next
-            if (this._pointer.next) {
-                this._pointer = this._pointer.next;
-            } else {
-                return;
-            }
+            // Moves pointer to next point
+            this._pointer = this._pointer.next;
         }
+        // Chain is competed
+        return undefined;
     }
 
     // Sets new cursor current point
     public setPoint(newPoint: IPoint): void {
         this._pointer = newPoint;
-        // TODO should be set to previous point
-        this._previousPoint = undefined;
     }
 
     // Sets new cursor logic
@@ -64,6 +50,7 @@ export class Cursor {
 
     // Update all the chain moving cursor to the end
     public update(): void {
+        this._resetCursor();
         // If the end of the chain reached
         while(!this.isCompleted()) {
             // Step
@@ -71,4 +58,7 @@ export class Cursor {
         }
     }
 
+    private _resetCursor(): void {
+        this._pointer = this._chainStart;
+    }
 }

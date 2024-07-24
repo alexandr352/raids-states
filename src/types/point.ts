@@ -1,15 +1,20 @@
 /**
- * Points are connected to create a store chain
+ * Start point of any chain
  */
-export interface IPoint {
-    next?: IPoint | undefined;
-    value: any;
+export interface IChainStart extends ICursorPoint {
+    last: IPoint;
 }
 
 /**
- * Start point of any chain
+ * CursorPoints can be used by cursors
  */
-export interface IChainStart {
-    next: IPoint;
-    last: IPoint;
+export interface ICursorPoint {
+    next?: IPoint;
+}
+
+/**
+ * Points are connected to create a store chain
+ */
+export interface IPoint extends ICursorPoint {
+    value: any;
 }

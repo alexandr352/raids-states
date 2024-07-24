@@ -1,40 +1,53 @@
-import { IPoint, Register } from "../types/index.js"
+import { ICursorPoint, IPoint, Register } from "../types/index.js"
 /**
- * Deletes one point from the space
- * @param {Register} spaces
- * @param {string} spaceName
- * @param {IPoint} point
- * @param {IPoint} previousPoint,
- * @returns {any}
+ * Deletes one point from the space.
+ * @param {Register} spaces - Spaces register.
+ * @param {string} spaceName - Name of the space to delete point from.
+ * @param {IPoint} point - Point that should be deleted.
+ * @param {ICursorPoint} previousPoint - Previous point in chain.
+ * @returns {any | undefined} Deleted point data or undefined on fail.
+ * 
  * @example
- * delete(spaces, spaceName, point, pointBefore) // Output: item value with no space connection
+ * 
+ * const item = deletePoint(spaces, "mySpace", point, previousPoint);
+ * item === point.value; // true
+ * previousPoint.next === item; // false
  */
 export function deletePoint(
     spaces: Register, spaceName: string,
-    point: IPoint, previousPoint: IPoint
+    point: IPoint, previousPoint: ICursorPoint
 ): any | undefined {
-    // Abort deletion if there is no item or existing Space
+    // Aborts deletion if there is no item or space with provided name
     if (point == null || !spaces.hasOwnProperty(spaceName)) {
+        // Returns undefined as deletion was aborted
         return;
     }
-    // Check if point is last in the chain
+    /**
+     * @todo Add check if the point belongs to the space
+     */
+    // Checks if point is last in the chain
     if (spaces[spaceName].last === point) {
-        // Check if there are more items in the space
+        // Checks if there are more items in the space
         if (spaces[spaceName].next !== point) {
-            // Removing pointer to current item from previous
+            /**
+             * @dev Here previousPint is regular IPoint (not space start point)
+             */
+            // Deletes point connection
             delete previousPoint.next;
-            // Moving space pointer to the previous item
-            spaces[spaceName].last = previousPoint;
+            // Sets new last item
+            spaces[spaceName].last = previousPoint as IPoint;
         } else {
-            // As there was only one item in the space, it can be deleted
+            // Deletes empty space
             delete spaces[spaceName];
         }
-        // Return the item removed from the space chain
+        // Returns deleted point data
         return point.value;
     }
-    // If not last item in chain, it should have next
-    // Excludes item from the chain
+    /**
+     * @dev As point is not the last in chain, it always has next
+     */
+    // Excludes item from the chain connecting tails
     previousPoint.next = point.next;
-    // Return the item removed from the space chain
+    // Returns excluded point data
     return point.value;
 }

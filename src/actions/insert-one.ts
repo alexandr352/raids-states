@@ -1,36 +1,43 @@
 import { IPoint, Register } from "../types/index.js";
 /**
  * Insets one item under a space
- * @param {any} item
- * @param {Register} spaces
- * @param {string} spaceName
- * @returns {IPoint}
+ * @param {Register} spaces - Spaces register.
+ * @param {string} spaceName - Name of a space to insert the item.
+ * @param {any} item - Data to be inserted.
+ * @returns {any | undefined} Data added to the space.
+ * 
  * @example
- * insert(myItem, spaceName) // Output: myItem with a space connection
+ * 
+ * const item = insert(spaces, spaceName, item);
+ * spaces[spaceName].last.value === item; // true
  */
-export function insertOne(spaces: Register, spaceName: string, item: any): IPoint | undefined {
-    // Abort if no item provided
+export function insertOne(spaces: Register, spaceName: string, item: any): any | undefined {
+    /**
+     * @dev space and spaceName provided with bindings and should always be valid
+     */
+    // Checks if item exists
     if (item == null) {
+        // Returns undefined as insert was aborted
         return;
     }
-    // Create point from item
+    // Creates point from item
     const point: IPoint = {
         value: item
     }
-    // If there is a space with provided name
+    // Checks if space with provided name exists
     if (spaces.hasOwnProperty(spaceName)) {
-        // Connect point to last item in chain
+        // Connects point to the last item in space
         spaces[spaceName].last.next = point;
-        // Move las item pointer to newly added point
+        // Sets new last point in space
         spaces[spaceName].last = point;
-        // Return connected to the Space item
+        // Returns connected to the Space item
         return point.value;
     }
-    // Add first item to the space
+    // Creates new space with a given name by adding first item
     spaces[spaceName] = {
         next: point,
         last: point
     };
-    // Return connected to the Space item
+    // Returns newly created point value
     return point.value;
 }

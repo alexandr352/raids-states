@@ -1,1 +1,0 @@
-export type CursorFilter = (data: any) => boolean;

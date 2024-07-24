@@ -1,24 +1,33 @@
-import { IChainStart, IPoint } from "../types";
+import { IChainStart, ICursorPoint, IPoint } from "../types/index.js";
 /**
  * Returns previous chain point for current item
- * @param {any} item
- * @param {IChainStart} chainStart
- * @returns {IPoint}
+ * @param {any} item - Data stored in point.
+ * @param {IChainStart} chainStart - Start of the chain to search the item.
+ * @returns {ICursorPoint | undefined} Point with next pointing to items point.
+ * 
  * @example
- * findPrevious(item, spaceStartPoint) // Output: !Point with next connected to the item point
+ * 
+ * const previousPoint = findPrevious(item, spaceStartPoint);
+ * previous.next.value === item; // true
  */
-export function findPrevious(item: any, chainStart: IChainStart): IChainStart | IPoint | undefined {
-    // Pointer to iterate through chain
+export function findPrevious(item: any, chainStart: IChainStart): ICursorPoint | undefined {
+    // Checks if required parameters exist
+    if (!item || !chainStart) {
+        // Returns undefined as operation was aborted
+        return;
+    }
+    // Creates pointer to iterate through the chain
     let pointer: IChainStart | IPoint = chainStart;
+    // Repeats search while we have next items in chain
     while(pointer.next) {
-        // Next point is the one with the item we searching
+        // Checks if pointer is the previous point to item
         if (pointer.next.value === item) {
-            // Returns current point as previous to next
+            // Returns point found
             return pointer;
         }
-        // Moving pointer to next point
+        // Moves pointer to the next point
         pointer = pointer.next;
     }
-    // The Item is not from the space
+    // Returns undefined as item was not found in the space
     return undefined;
 }

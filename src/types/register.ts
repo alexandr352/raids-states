@@ -1,6 +1,6 @@
-import { IChainStart, IPoint } from "./point.js"
+import { IChainStart } from "./point.js"
 /**
- * Register is used to store space tail points
+ * Register is used to store space start points
  */
 export type Register = {
     [name: string]: IChainStart

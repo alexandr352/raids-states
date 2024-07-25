@@ -2,6 +2,7 @@ import { CursorFilter, CursorLogic, ISpace, Register } from "./types/index.js";
 import { insertOne } from "./actions/index.js";
 import { Cursor } from "./cursor.js";
 import { filterObject } from "./filters/object.js";
+import { findOne } from "./actions/find-one.js";
 
 /**
  * RaidsStates main class.
@@ -9,11 +10,9 @@ import { filterObject } from "./filters/object.js";
  */
 export class RaidsStates {
     /**
-     * Internal cursor link.
-     * 
-     * @dev Will be created after the first use and reused after
+     * Internal cursor link created with dummy start point
      */
-    private _cursor: Cursor | undefined = new Cursor({last: {value: undefined}});
+    private _cursor: Cursor  = new Cursor({last: {value: undefined}});
 
     /**
      * Register of points to access space tails.
@@ -73,7 +72,9 @@ export class RaidsStates {
         return {
             // Inserts new item in to the space
             insert: insertOne.bind(this, this._register, name),
-            // Returns name of the space interface connected to
+            // Finds one item using object-like query
+            findOne: findOne.bind(this, this._cursor, this._register, name),
+            // Returns a name of this interface space
             name: function(): string { return name; }
         };
     }

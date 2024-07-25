@@ -77,6 +77,8 @@ export class Cursor {
         }
         // Sets new chain start
         this._chainStart = newChainStart;
+        // Resets current pointer
+        this._resetPointer();
         // Returns success
         return true;
     }
@@ -137,7 +139,7 @@ export class Cursor {
      */
     public update(): void {
         // Resets cursor position
-        this._resetCursor();
+        this._resetPointer();
         // Iterates through the chain
         while(!this.isCompleted()) {
             // Makes next step
@@ -148,7 +150,7 @@ export class Cursor {
     /**
      * Resets cursor pointer to the beginning of the chain.
      */
-    private _resetCursor(): void {
+    private _resetPointer(): void {
         // Sets pointer as starting point of the chain
         this._pointer = this._chainStart;
     }

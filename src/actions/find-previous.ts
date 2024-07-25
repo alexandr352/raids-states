@@ -1,6 +1,6 @@
 import { IChainStart, ICursorPoint, IPoint } from "../types/index.js";
 /**
- * Returns previous chain point for current item
+ * Returns previous chain point for current item.
  * @param {any} item - Data stored in point.
  * @param {IChainStart} chainStart - Start of the chain to search the item.
  * @returns {ICursorPoint | undefined} Point with next pointing to items point.

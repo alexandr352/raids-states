@@ -1,6 +1,6 @@
 import { IPoint, Register } from "../types/index.js";
 /**
- * Insets one item under a space
+ * Insets one item under a space.
  * @param {Register} spaces - Spaces register.
  * @param {string} spaceName - Name of a space to insert the item.
  * @param {any} item - Data to be inserted.
@@ -13,7 +13,7 @@ import { IPoint, Register } from "../types/index.js";
  */
 export function insertOne(spaces: Register, spaceName: string, item: any): any | undefined {
     /**
-     * @dev space and spaceName provided with bindings and should always be valid
+     * @dev space and spaceName provided with bindings and should always be valid.
      */
     // Checks if item exists
     if (item == null) {

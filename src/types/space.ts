@@ -1,6 +1,6 @@
 import { IPoint } from "./point.js";
 /**
- * Interface provided by space function to operate with a space
+ * Interface provided by space function to operate with a space.
  */
 export interface ISpace {
     // Inserts item in space

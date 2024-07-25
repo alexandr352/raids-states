@@ -30,7 +30,7 @@ export function deletePoint(
         // Checks if there are more items in the space
         if (spaces[spaceName].next !== point) {
             /**
-             * @dev Here previousPint is regular IPoint (not space start point)
+             * @dev Here previousPint is regular IPoint (not space start point).
              */
             // Deletes point connection
             delete previousPoint.next;
@@ -44,7 +44,7 @@ export function deletePoint(
         return point.value;
     }
     /**
-     * @dev As point is not the last in chain, it always has next
+     * @dev As point is not the last in chain, it always has next.
      */
     // Excludes item from the chain connecting tails
     previousPoint.next = point.next;

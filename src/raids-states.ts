@@ -8,6 +8,11 @@ import { Cursor } from "./cursor.js";
  */
 export class RaidsStates {
     /**
+     * Cursor for internal uses created with fake starting point
+     */
+    private _cursor: Cursor = new Cursor({last: {value: undefined}});
+
+    /**
      * Register of points to access space tails.
      */
     private _register: Register = {};

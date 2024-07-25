@@ -65,18 +65,18 @@ export class Cursor {
     }
 
     /**
-     * Sets new cursor current point.
-     * @param {ICursorPoint} newPoint - The new point to point cursor to.
+     * Sets chain starting point.
+     * @param {IChainStart} newChainStart - The new starting point.
      * @returns {boolean} Returns if this operation was successful.
      */
-    public setPoint(newPoint: ICursorPoint): boolean {
-        // Checks if new point provided
-        if (newPoint == null) {
-            // The new point was not set
+    public setChainStart(newChainStart: IChainStart): boolean {
+        // Checks if valid start pointed provided
+        if (!newChainStart || !newChainStart.hasOwnProperty('last')) {
+            // Returns fail
             return false;
         }
-        // Sets new cursor pointer
-        this._pointer = newPoint;
+        // Sets new chain start
+        this._chainStart = newChainStart;
         // Returns success
         return true;
     }
@@ -94,6 +94,23 @@ export class Cursor {
         }
         // Sets the new cursor logic
         this._logic = newLogic;
+        // Returns success
+        return true;
+    }
+
+    /**
+     * Sets new cursor current point.
+     * @param {ICursorPoint} newPoint - The new point to point cursor to.
+     * @returns {boolean} Returns if this operation was successful.
+     */
+    public setPoint(newPoint: ICursorPoint): boolean {
+        // Checks if new point provided
+        if (newPoint == null) {
+            // The new point was not set
+            return false;
+        }
+        // Sets new cursor pointer
+        this._pointer = newPoint;
         // Returns success
         return true;
     }

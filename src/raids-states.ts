@@ -8,9 +8,11 @@ import { Cursor } from "./cursor.js";
  */
 export class RaidsStates {
     /**
-     * Cursor for internal uses created with fake starting point
+     * Internal cursor link.
+     * 
+     * @dev Will be created after the first use and reused after
      */
-    private _cursor: Cursor = new Cursor({last: {value: undefined}});
+    private _cursor: Cursor | undefined = new Cursor({last: {value: undefined}});
 
     /**
      * Register of points to access space tails.
@@ -29,9 +31,6 @@ export class RaidsStates {
      * 
      * // Creates cursor returning each item value
      * const mySpaceCursor = rs.cursor("mySpaceName");
-     * 
-     * @example
-     * 
      * // Defines cursor logic as console-logging function
      * const logLogic = (item) => { console.log(item); }
      * // Creates cursor for console-logging each item in the space

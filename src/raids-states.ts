@@ -1,6 +1,7 @@
 import { CursorFilter, CursorLogic, ISpace, Register } from "./types/index.js";
 import { insertOne } from "./actions/index.js";
 import { Cursor } from "./cursor.js";
+import { filterObject } from "./filters/object.js";
 
 /**
  * RaidsStates main class.
@@ -43,6 +44,16 @@ export class RaidsStates {
         if (!this._register.hasOwnProperty(spaceName)) {
             // Returns undefined as cursor was not created
             return;
+        }
+        // Checks if filter provided is an object
+        if (typeof filter === "object") {
+            // Closures query on provided object
+            const query = filter;
+            // Sets filter as default object filter
+            filter = function(value) {
+                // Uses provided object as a query
+                return filterObject(query, value);
+            }
         }
         // Creates and returns new cursor
         return new Cursor(this._register[spaceName], logic, filter);

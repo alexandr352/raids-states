@@ -1,16 +1,14 @@
 import { CursorFilter, CursorLogic, ISpace, Register } from "./types/index.js";
-import { insertOne } from "./actions/index.js";
+import { findOne, insertOne } from "./actions/index.js";
+import { filterObject } from "./filters/index.js";
 import { Cursor } from "./cursor.js";
-import { filterObject } from "./filters/object.js";
-import { findOne } from "./actions/find-one.js";
-
 /**
  * RaidsStates main class.
  * @class
  */
 export class RaidsStates {
     /**
-     * Internal cursor link created with dummy start point
+     * Internal cursor link created with dummy start point.
      */
     private _cursor: Cursor  = new Cursor({last: {value: undefined}});
 

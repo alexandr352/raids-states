@@ -35,7 +35,7 @@ export class Cursor {
     }
 
     /**
-     * Operation to move cursor in the chain on one step.
+     * Operation to move cursor in the chain one step.
      * The step is done when cursor finds next point, passing the filter,
      * and executes its logic. Or when the end of the chain is reached.
      * @returns {any | undefined} Returns the result of cursor logic execution.

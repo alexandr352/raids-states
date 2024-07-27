@@ -1,4 +1,4 @@
-import { CursorFilter, CursorLogic, ISpace, Register } from "./types/index.js";
+import { CursorFilter, CursorLogic, ICollection, Register } from "./types/index.js";
 import { findOne, insertOne } from "./actions/index.js";
 import { filterObject } from "./filters/index.js";
 import { Cursor } from "./cursor.js";
@@ -13,7 +13,7 @@ export class RaidsStates {
     private _cursor: Cursor  = new Cursor({last: {value: undefined}});
 
     /**
-     * Register of points to access space tails.
+     * Register of collections.
      */
     private _register: Register = {};
 
@@ -57,23 +57,42 @@ export class RaidsStates {
     }
 
     /**
-     * Returns interface to operate with a space.
-     * @param {string} name - The name of a space.
-     * @returns {ISpace} Interface to Communicate with a space 
+     * Returns interface to operate with collection.
+     * @param {string} name - Collection name.
+     * @returns {ICollection} Collection interface 
      * 
      * @example
      * 
-     * // Creates interface to "mySpaceName" space
-     * const mySpace = space("mySpaceName");
+     * // Creates interface to "c" collection
+     * const myCollection = collection("myCollection");
      */
-    public space(name: string): ISpace {
+    public collection(name: string): ICollection {
         return {
-            // Inserts new item in to the space
+            drop: this.dropCollection.bind(this, name),
+            // Inserts new item
             insert: insertOne.bind(this, this._register, name),
             // Finds one item using object-like query
             findOne: findOne.bind(this, this._cursor, this._register, name),
-            // Returns a name of this interface space
+            // Returns collection name
             name: function(): string { return name; }
         };
+    }
+
+    /**
+     * Deletes collection by name.
+     * @param {string} name - Collection name.
+     * @returns {boolean} If operation was successful 
+     * 
+     * @example
+     * 
+     * // Deletes collection "myCollection"
+     * rs.dropCollection("myCollection");
+     */
+    public dropCollection(name: string): boolean {
+        if (!this._register.hasOwnProperty(name)) {
+            return false;
+        }
+        delete this._register[name];
+        return true;
     }
 }

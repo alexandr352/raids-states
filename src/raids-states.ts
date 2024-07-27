@@ -1,5 +1,5 @@
 import { CursorFilter, CursorLogic, ICollection, Register } from "./types/index.js";
-import { findOne, insertOne } from "./actions/index.js";
+import { findOne, insertOne, updateOne } from "./operations/index.js";
 import { filterObject } from "./filters/index.js";
 import { Cursor } from "./cursor.js";
 /**
@@ -69,15 +69,17 @@ export class RaidsStates {
     public collection(name: string): ICollection {
         return {
             drop: this.dropCollection.bind(this, name),
-            // Inserts new item
+            // Inserts new document
             /**
-             * @dev Collection will be created after first item is added.
+             * @dev Collection will be created after first document is added.
              */
             insert: insertOne.bind(this, this._register, name),
-            // Finds one item using object-like query
+            // Finds and returns one document
             findOne: findOne.bind(this, this._cursor, this._register, name),
             // Returns collection name
-            name: function(): string { return name; }
+            name: function(): string { return name; },
+            // Updates and returns one document
+            updateOne: updateOne.bind(this, this._cursor, this._register, name)
         };
     }
 

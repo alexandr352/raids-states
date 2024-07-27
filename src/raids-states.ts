@@ -13,14 +13,14 @@ export class RaidsStates {
     private _cursor: Cursor  = new Cursor({last: {value: undefined}});
 
     /**
-     * Register of collections.
+     * Collections register.
      */
     private _register: Register = {};
 
 
     /**
      * Creates new database cursor.
-     * @param {string} spaceName - The name of a space cursor connected to.
+     * @param {string} collectionName - Collection name.
      * @param {CursorLogic} logic - (Optional) cursor logic function. Default: (i) => i.
      * @param {CursorFilter} filter - (Optional) cursor filter function. Default: () => true.
      * @returns { Cursor | undefined } Database cursor if it was created.
@@ -31,14 +31,14 @@ export class RaidsStates {
      * const mySpaceCursor = rs.cursor("mySpaceName");
      * // Defines cursor logic as console-logging function
      * const logLogic = (item) => { console.log(item); }
-     * // Creates cursor for console-logging each item in the space
+     * // Creates cursor for console-logging each item in collection
      * const logCursor = rs.cursor("mySpaceName", logLogic);
      * // Executes cursor logging every item in "mySpaceName"
      * logCursor.update();
      */
-    public cursor(spaceName: string, logic?: CursorLogic, filter?: CursorFilter): Cursor | undefined {
-        // Checks if the space with provided name exists
-        if (!this._register.hasOwnProperty(spaceName)) {
+    public cursor(collectionName: string, logic?: CursorLogic, filter?: CursorFilter): Cursor | undefined {
+        // Checks if collection with provided name exists
+        if (!this._register.hasOwnProperty(collectionName)) {
             // Returns undefined as cursor was not created
             return;
         }
@@ -53,7 +53,7 @@ export class RaidsStates {
             }
         }
         // Creates and returns new cursor
-        return new Cursor(this._register[spaceName], logic, filter);
+        return new Cursor(this._register[collectionName], logic, filter);
     }
 
     /**
@@ -70,6 +70,9 @@ export class RaidsStates {
         return {
             drop: this.dropCollection.bind(this, name),
             // Inserts new item
+            /**
+             * @dev Collection will be created after first item is added.
+             */
             insert: insertOne.bind(this, this._register, name),
             // Finds one item using object-like query
             findOne: findOne.bind(this, this._cursor, this._register, name),
@@ -94,5 +97,18 @@ export class RaidsStates {
         }
         delete this._register[name];
         return true;
+    }
+
+    /**
+     * Lists existing collections.
+     * @returns {string[]} An array of existing collection names 
+     * 
+     * @example
+     * 
+     * // Gets an array of collection names
+     * rs.listCollections();
+     */
+    public listCollections(): string[] {
+        return Object.keys(this._register);
     }
 }

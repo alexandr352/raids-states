@@ -1,119 +1,64 @@
-import { CursorFilter, CursorLogic, ICollection, Register } from "./types/index.js";
-import { deleteOne, findOne, insertOne, updateOne } from "./operations/index.js";
-import { filterObject } from "./filters/index.js";
-import { Cursor } from "./cursor.js";
+import { Database } from "./database.js";
 /**
  * RaidsStates main class.
  * @class
  */
 export class RaidsStates {
-    /**
-     * Internal cursor link created with dummy start point.
-     */
-    private _cursor: Cursor  = new Cursor({last: {value: undefined}});
+    // RaidsStates singleton instance
+    private static _instance: RaidsStates;
+    // Database register
+    private _register: Map<string, Database> = new Map();
+
+    // Constructor is protected
+    protected constructor() {}
 
     /**
-     * Collections register.
+     * Creates or returns existing RaidsStates instance.
+     * @returns RaidsStates
      */
-    private _register: Register = {};
-
-
-    /**
-     * Creates new database cursor.
-     * @param {string} collectionName - Collection name.
-     * @param {CursorLogic} logic - (Optional) cursor logic function. Default: (i) => i.
-     * @param {CursorFilter} filter - (Optional) cursor filter function. Default: () => true.
-     * @returns { Cursor | undefined } Database cursor if it was created.
-     * 
-     * @example
-     * 
-     * // Creates cursor returning each item value
-     * const mySpaceCursor = rs.cursor("mySpaceName");
-     * // Defines cursor logic as console-logging function
-     * const logLogic = (item) => { console.log(item); }
-     * // Creates cursor for console-logging each item in collection
-     * const logCursor = rs.cursor("mySpaceName", logLogic);
-     * // Executes cursor logging every item in "mySpaceName"
-     * logCursor.update();
-     */
-    public cursor(collectionName: string, logic?: CursorLogic, filter?: CursorFilter): Cursor | undefined {
-        // Checks if collection with provided name exists
-        if (!this._register.hasOwnProperty(collectionName)) {
-            // Returns undefined as cursor was not created
-            return;
+    public static instance(): RaidsStates {
+        // Checks if instance is already exists
+        if (!RaidsStates._instance) {
+            // Creates new instance
+            RaidsStates._instance = new RaidsStates();
         }
-        // Checks if filter provided is an object
-        if (typeof filter === "object") {
-            // Closures query on provided object
-            const query = filter;
-            // Sets filter as default object filter
-            filter = function(value) {
-                // Uses provided object as a query
-                return filterObject(query, value);
-            }
-        }
-        // Creates and returns new cursor
-        return new Cursor(this._register[collectionName], logic, filter);
+        // Returns RaidsStates instance
+        return RaidsStates._instance;
     }
 
-    /**
-     * Returns interface to operate with collection.
-     * @param {string} name - Collection name.
-     * @returns {ICollection} Collection interface 
+    /** Registers new database or gets existing
+     * @param {string} name - Database name.
+     * @returns {Database} Existing or new database.
      * 
      * @example
      * 
-     * // Creates interface to "c" collection
-     * const myCollection = collection("myCollection");
+     * // Registers database "myDb"
+     * const myDb = RaidsStates.register("myDb");
+     * 
+     * @dev As singleton, we can take public methods
+     * from prototype on the instance it self.
      */
-    public collection(name: string): ICollection {
-        return {
-            // Deletes document from collection
-            deleteOne: deleteOne.bind(this, this._cursor, this._register, name),
-            // Deletes collection
-            drop: this.dropCollection.bind(this, name),
-            // Inserts new document
-            /**
-             * @dev Collection will be created after first document is added.
-             */
-            insert: insertOne.bind(this, this._register, name),
-            // Finds and returns one document
-            findOne: findOne.bind(this, this._cursor, this._register, name),
-            // Returns collection name
-            name: function(): string { return name; },
-            // Updates and returns one document
-            updateOne: updateOne.bind(this, this._cursor, this._register, name)
-        };deleteOne
+    public register = (name: string): Database => {
+        if (!this._register.has(name)) {
+            this._register.set(name, new Database());
+        }
+        return this._register.get(name)!;
     }
 
-    /**
-     * Deletes collection by name.
-     * @param {string} name - Collection name.
-     * @returns {boolean} If operation was successful 
+    /** Deletes database
+     * @param {string} name - Database name.
+     * @returns {boolean} true or false, if database was deleted.
      * 
      * @example
      * 
-     * // Deletes collection "myCollection"
-     * rs.dropCollection("myCollection");
+     * // Deletes database "myDb"
+     * RaidsStates.remove("myDb");
      */
-    public dropCollection(name: string): boolean {
-        if (!this._register.hasOwnProperty(name)) {
+    public remove = (name: string): boolean => {
+        if (!this._register.has(name)) {
             return false;
         }
-        delete this._register[name];
+        this._register.delete(name);
         return true;
-    }
-
-    /**
-     * Lists existing collections.
-     * @returns {string[]} An array of existing collection names 
-     * 
-     * @example
-     * 
-     * // Gets an array of collection names
-     * rs.listCollections();
-     */
-    public listCollections(): string[] {
-        return Object.keys(this._register);
     }
 }

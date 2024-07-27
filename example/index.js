@@ -1,5 +1,5 @@
-import { RaidsStates } from "../dist/esm/index.js"
+import RS from "../dist/esm/index.js"
 
 document.addEventListener("DOMContentLoaded", function() {
-    window.rs = new RaidsStates();
+    console.log("App start! RaidsStates:", RS);
 });

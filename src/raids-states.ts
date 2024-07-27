@@ -1,5 +1,5 @@
 import { CursorFilter, CursorLogic, ICollection, Register } from "./types/index.js";
-import { findOne, insertOne, updateOne } from "./operations/index.js";
+import { deleteOne, findOne, insertOne, updateOne } from "./operations/index.js";
 import { filterObject } from "./filters/index.js";
 import { Cursor } from "./cursor.js";
 /**
@@ -68,6 +68,9 @@ export class RaidsStates {
      */
     public collection(name: string): ICollection {
         return {
+            // Deletes document from collection
+            deleteOne: deleteOne.bind(this, this._cursor, this._register, name),
+            // Deletes collection
             drop: this.dropCollection.bind(this, name),
             // Inserts new document
             /**
@@ -80,7 +83,7 @@ export class RaidsStates {
             name: function(): string { return name; },
             // Updates and returns one document
             updateOne: updateOne.bind(this, this._cursor, this._register, name)
-        };
+        };deleteOne
     }
 
     /**

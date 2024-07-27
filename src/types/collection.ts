@@ -3,6 +3,8 @@ import { IPoint } from "./point.js";
  * Collections interface.
  */
 export interface ICollection {
+    // Deletes document from collection
+    deleteOne: (query: any) => any | undefined
     // Deletes collection
     drop: () => boolean;
     // Inserts new document

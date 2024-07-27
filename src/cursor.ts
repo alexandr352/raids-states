@@ -84,7 +84,7 @@ export class Cursor {
     }
 
     /**
-     * Sets new cursor logic function.
+     * Sets new cursor logic function. // (document, point, previousPoint) => any
      * @param {CursorLogic} newLogic - New logic that will be executed by cursor.
      * @returns {boolean}  Returns if the new logic is set.
      */
